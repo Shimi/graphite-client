@@ -1,7 +1,7 @@
 {
   "name": "graphite-client",
   "version": "1.0.0",
-  "description": "Graphite client node module",
+  "description": "Node.js client for Graphite",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -20,5 +20,10 @@
     "sinon": "1.15.4",
     "mitm": "1.1.0"
   },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/Shimi/graphite-client"
+  },
+  "bugs": "https://github.com/Shimi/graphite-client/issues",
   "author": "Shimi Kiviti"
 }
