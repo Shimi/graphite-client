@@ -2,10 +2,10 @@ var net = require('net');
 
 module.exports = Graphite;
 
-function Graphite(host, port, charSet, timeout, timeoutListener) {
+function Graphite(host, port, encoding, timeout, timeoutListener) {
   this.host = host;
   this.port = port;
-  this.charSet = charSet;
+  this.encoding = encoding;
   this.timeout = timeout;
   this.timeoutListener = timeoutListener;
   this.eventsCallbacks = [];
@@ -13,15 +13,19 @@ function Graphite(host, port, charSet, timeout, timeoutListener) {
 
 Graphite.prototype.connect = function(connectListener) {
   this.socket = net.connect({host: this.host, port: this.port}, connectListener);
-  this.socket.setEncoding(this.charSet);
+  if (this.encoding) {
+    this.socket.setEncoding(this.encoding);
+  }
   
-  var self = this;
-  this.socket.setTimeout(this.timeout, function(){
+  if (this.timeout) {
+    var self = this;
+    this.socket.setTimeout(this.timeout, function(){
 
-    self.timeoutListener();
-    self.end();
-    self.connect(connectListener);
-  });
+      self.timeoutListener();
+      self.end();
+      self.connect(connectListener);
+    });
+  }
 
   this.eventsCallbacks.forEach(function (eventCallback) {
     this.socket.on(eventCallback.event, eventCallback.callback);

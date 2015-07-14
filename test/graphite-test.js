@@ -76,10 +76,22 @@ describe('Graphite', function () {
         }
       );
     });
+  })
+
+  describe('connect', function () {
+    it('should connect to the server and call the callback method', function (done) {
+      mitm.on("connection", function(socket) { socket.write('connect')  });
+    
+      var graphite = new Graphite('someHostAddress', 2003, 'UTF-8', 1, null);
+      graphite.connect(function() {
+        graphite.end();
+        done();
+      });
+    });
 
     it('should call the timeout callback on timeout', function (done) {
   
-      mitm.on("connection", function(socket) { socket.write('connect')  })
+      mitm.on("connection", function(socket) { socket.write('connect')  });
 
       var done_called = false;
 
@@ -91,23 +103,25 @@ describe('Graphite', function () {
         }
       });
       graphite.connect(null);
-    })
-  })
+    });
 
-  describe('connect', function () {
-    it('should connect to the server and call the callback method', function (done) {
-      mitm.on("connection", function(socket) { socket.write('connect')  })
-    
-      var graphite = new Graphite('someHostAddress', 2003, 'UTF-8', 1, null);
-      graphite.connect(function() {
-        graphite.end();
-        done();
+    it('should connect if timeout is not provided', function (done) {
+  
+      mitm.on("connection", function(socket) {
+        if (!done_called) {
+          done();
+          done_called = true;
+        }  
       });
+
+      var done_called = false;
+      var graphite = new Graphite('someHostAddress', 2003, 'UTF-8');
+      graphite.connect(null);
     });
   })
 
   describe('on(error)', function () {
-    it('should call the error callback', function (done) {
+    it('before connect() should call the error callback', function (done) {
       var graphite = new Graphite('someHostAddress', 2003, 'UTF-8', 1000000);
 
       graphite.on('error', function() {
@@ -115,6 +129,21 @@ describe('Graphite', function () {
         done();
       });
       graphite.connect(null);
+      graphite.end();
+      graphite.write('sdfsd');
+    
+    });
+
+    it('after connect() should call the error callback', function (done) {
+      var graphite = new Graphite('someHostAddress', 2003, 'UTF-8', 1000000);
+
+      graphite.connect(null);
+
+      graphite.on('error', function() {
+        graphite.end();
+        done();
+      });
+      
       graphite.end();
       graphite.write('sdfsd');
     
