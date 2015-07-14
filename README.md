@@ -2,6 +2,11 @@
 
 Node.js client for Graphite
 
+##Install
+```
+$ npm install graphite-client
+```
+
 ## Usage
 ###Create instance
 ```js
