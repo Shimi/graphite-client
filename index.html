@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Graphite-client by Shimi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Graphite-client</h1>
+      <h2 class="project-tagline">Node.js client for Graphite</h2>
+      <a href="https://github.com/Shimi/graphite-client" class="btn">View on GitHub</a>
+      <a href="https://github.com/Shimi/graphite-client/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Shimi/graphite-client/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="graphite-client" class="anchor" href="#graphite-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>graphite-client</h1>
+
+<p>Node.js client for Graphite</p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<pre><code>$ npm install graphite-client
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="create-instance" class="anchor" href="#create-instance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create instance</h3>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Graphite <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>graphite-client<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> graphite <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Graphite</span>(serverHost, <span class="pl-c1">2003</span>, <span class="pl-s"><span class="pl-pds">'</span>UTF-8<span class="pl-pds">'</span></span>, <span class="pl-c1">3000</span>, <span class="pl-k">function</span>() {
+  log<span class="pl-c1">.info</span>(<span class="pl-s"><span class="pl-pds">"</span>Graphite server connection timeout<span class="pl-pds">"</span></span>);
+});</pre></div>
+
+<p>The client tries to reconnect on connection timeout</p>
+
+<h3>
+<a id="listen-fot-the-underline-socket-events" class="anchor" href="#listen-fot-the-underline-socket-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Listen fot the underline socket events</h3>
+
+<div class="highlight highlight-js"><pre>graphite.<span class="pl-c1">on</span>(<span class="pl-s"><span class="pl-pds">'</span>end<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+  log<span class="pl-c1">.info</span>(<span class="pl-s"><span class="pl-pds">'</span>Graphite client disconnected<span class="pl-pds">'</span></span>);
+});
+
+graphite.<span class="pl-c1">on</span>(<span class="pl-s"><span class="pl-pds">'</span>error<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">error</span>) {
+  log<span class="pl-c1">.info</span>(<span class="pl-s"><span class="pl-pds">'</span>Graphite connection failure. <span class="pl-pds">'</span></span> <span class="pl-k">+</span> error);
+});</pre></div>
+
+<h3>
+<a id="connect-to-the-graphite-server" class="anchor" href="#connect-to-the-graphite-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Connect to the graphite server</h3>
+
+<div class="highlight highlight-js"><pre>graphite.<span class="pl-c1">connect</span>(<span class="pl-k">function</span>() { <span class="pl-c">//'connect' listener</span>
+  log<span class="pl-c1">.info</span>(<span class="pl-s"><span class="pl-pds">'</span>Connected to Graphite server<span class="pl-pds">'</span></span>);
+});</pre></div>
+
+<h3>
+<a id="write-to-the-server" class="anchor" href="#write-to-the-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Write to the server</h3>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> metrics <span class="pl-k">=</span> {
+  <span class="pl-s"><span class="pl-pds">'</span>pre1<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {
+    <span class="pl-s"><span class="pl-pds">'</span>pre2<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {
+      <span class="pl-s"><span class="pl-pds">'</span>key1<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>value1<span class="pl-pds">'</span></span>,
+      <span class="pl-s"><span class="pl-pds">'</span>key2<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>value2<span class="pl-pds">'</span></span>,
+    },
+  },
+  <span class="pl-s"><span class="pl-pds">'</span>key3<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>value3<span class="pl-pds">'</span></span>
+};
+
+graphite.<span class="pl-c1">write</span>(metrics, <span class="pl-c1">Date</span>.<span class="pl-c1">now</span>(), <span class="pl-k">function</span>(<span class="pl-smi">err</span>) {
+  log<span class="pl-c1">.warn</span>(<span class="pl-s"><span class="pl-pds">"</span>Failed to write metrics to metrics server. err: <span class="pl-pds">"</span></span> <span class="pl-k">+</span> err)
+});</pre></div>
+
+<p>Assuming the current time is Jul 13 2015 00:00:00 UTC (1436745600 in sec Unix Epoch Time) The folliwng data will be send to the server</p>
+
+<pre><code>pre1.pre2.key1 value1 1436745600
+pre1.pre2.key2 value2 1436745600
+key3 value3 1436745600
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Shimi/graphite-client">Graphite-client</a> is maintained by <a href="https://github.com/Shimi">Shimi</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
