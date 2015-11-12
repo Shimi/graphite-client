@@ -12,13 +12,11 @@ $ npm install graphite-client
 ```js
 var Graphite = require('graphite-client');
 
-var graphite = new Graphite(serverHost, 2003, 'UTF-8', 3000, function() {
-  log.info("Graphite server connection timeout");
-});
+var graphite = new Graphite(serverHost, 2003, 'UTF-8');
 ```
 The client tries to reconnect on connection timeout
 
-###Listen fot the underline socket events
+###Listen for the underline socket events
 ```js
 graphite.on('end', function() {
   log.info('Graphite client disconnected');
