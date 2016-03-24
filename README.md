@@ -1,8 +1,9 @@
 # graphite-client
 
-Node.js client for Graphite      [![Build Status](https://travis-ci.org/Shimi/graphite-client.svg?branch=master)](https://travis-ci.org/Shimi/graphite-client)
+Node.js client for Graphite      [![Build Status](https://travis-ci.org/Shimi/graphite-client.svg?branch=master)](https://travis-ci.org/Shimi/graphite-client) 
 
 ##Install
+[![NPM](https://nodei.co/npm/graphite-client.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/graphite-client/)
 ```
 $ npm install graphite-client
 ```
